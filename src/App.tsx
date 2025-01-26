@@ -58,7 +58,7 @@ function AnimatedLogo() {
         }}
         className="text-2xl font-bold text-cyan-500"
       >
-        TechFest 2024
+        TechFest 2025
       </motion.h1>
     </motion.div>
   );
@@ -160,7 +160,7 @@ function Hero() {
             transition={{ delay: 0.2 }}
             className="inline-block"
           >
-            Tech
+            TANT
           </motion.span>
           <motion.span
             initial={{ opacity: 0, y: 20 }}
@@ -168,7 +168,7 @@ function Hero() {
             transition={{ delay: 0.4 }}
             className="inline-block text-cyan-500"
           >
-            Fest
+            RAZ
           </motion.span>
           <motion.span
             initial={{ opacity: 0, y: 20 }}
@@ -176,7 +176,7 @@ function Hero() {
             transition={{ delay: 0.6 }}
             className="inline-block ml-4"
           >
-            2024
+          2025
           </motion.span>
         </motion.h1>
         <motion.div
@@ -309,7 +309,7 @@ function EventDetails({ event, onClose }) {
               className="flex items-center gap-3 text-gray-300"
             >
               <Calendar className="text-cyan-500" size={20} />
-              <span>March 15-16, 2024</span>
+              <span>{event.date}</span> {/* Dynamic date */}
             </motion.div>
 
             <motion.div
@@ -319,7 +319,7 @@ function EventDetails({ event, onClose }) {
               className="flex items-center gap-3 text-gray-300"
             >
               <Clock className="text-cyan-500" size={20} />
-              <span>9:00 AM - 5:00 PM</span>
+              <span>{event.timings}</span> {/* Dynamic timings */}
             </motion.div>
 
             <motion.div
@@ -329,7 +329,7 @@ function EventDetails({ event, onClose }) {
               className="flex items-center gap-3 text-gray-300"
             >
               <MapPin className="text-cyan-500" size={20} />
-              <span>Main Auditorium, Engineering Block</span>
+              <span>{event.venue}</span> {/* Dynamic venue */}
             </motion.div>
           </div>
 
@@ -344,16 +344,14 @@ function EventDetails({ event, onClose }) {
               Rules & Guidelines
             </h3>
             <ul className="list-disc list-inside space-y-2 text-gray-300">
-              <li>Teams must consist of 2-4 members</li>
-              <li>All team members must be currently enrolled students</li>
-              <li>Prior registration is mandatory</li>
-              <li>Participants must bring their own laptops</li>
-              <li>Internet access will be provided</li>
+              {event.rules.map((rule, index) => (
+                <li key={index}>{rule}</li>
+              ))}
             </ul>
           </motion.div>
 
           <motion.a
-            href={event.formLink}
+            href={event.formLink} // Dynamic register link
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
@@ -430,15 +428,32 @@ function Events() {
       title: "Hackathon",
       icon: Code,
       description: "24-hour coding challenge to solve real-world problems",
-      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1740",
-      formLink: "#"
+      image: "https://github.com/varada-sandeep/Tantraz2025/blob/main/quickfingers.png?raw=true",
+      formLink: "https://forms.gle/HSnek7ht2tt4vWmW6",
+      date: "March 15, 2024", // Custom date
+      timings: "10:00 AM - 6:00 PM", // Custom timings
+      venue: "Auditorium, Engineering Block", // Custom venue
+      rules: [
+        "Teams must consist of 2-4 members",
+        "All team members must be currently enrolled students",
+        "Prior registration is mandatory",
+        "Participants must bring their own laptops",
+        "Internet access will be provided"
+      ]
     },
     {
       title: "Robotics Workshop",
       icon: Robot,
       description: "Build and program your own robot",
       image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1740",
-      formLink: "#"
+      formLink: "#",
+      rules: [
+        "Participants must bring their own tools",
+        "No prior experience required",
+        "Teams of 2-3 members",
+        "All materials will be provided",
+        "Workshop duration: 4 hours"
+      ]
     },
     {
       title: "AI Summit",
