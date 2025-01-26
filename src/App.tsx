@@ -13,13 +13,13 @@ function AnimatedLogo() {
   }, []);
 
   return (
-    <motion.div 
+    <motion.div
       whileHover={{ scale: 1.1 }}
       className="flex items-center gap-2"
     >
       <motion.div
         initial={{ rotate: 0 }}
-        animate={{ 
+        animate={{
           rotate: 360,
           filter: [
             'drop-shadow(0 0 10px #06b6d4)',
@@ -27,7 +27,7 @@ function AnimatedLogo() {
             'drop-shadow(0 0 10px #06b6d4)'
           ]
         }}
-        transition={{ 
+        transition={{
           rotate: { duration: 20, repeat: Infinity, ease: "linear" },
           filter: { duration: 2, repeat: Infinity, ease: "easeInOut" }
         }}
@@ -35,10 +35,10 @@ function AnimatedLogo() {
       >
         <Circuit className="text-cyan-500 absolute top-0 left-0" size={32} />
       </motion.div>
-      <motion.h1 
+      <motion.h1
         initial={{ opacity: 0, x: -20 }}
-        animate={{ 
-          opacity: 1, 
+        animate={{
+          opacity: 1,
           x: 0,
           textShadow: [
             '0 0 10px #06b6d4',
@@ -48,7 +48,7 @@ function AnimatedLogo() {
             '0 0 10px #06b6d4'
           ]
         }}
-        transition={{ 
+        transition={{
           duration: 0.5,
           textShadow: {
             duration: 3,
@@ -60,6 +60,194 @@ function AnimatedLogo() {
       >
         TechFest 2024
       </motion.h1>
+    </motion.div>
+  );
+}
+
+function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <motion.nav
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      className={`fixed w-full z-50 px-6 py-4 transition-all duration-300 ${scrolled ? 'bg-black/90 backdrop-blur-md shadow-lg' : 'bg-transparent'
+        }`}
+    >
+      <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <AnimatedLogo />
+        <div className="flex gap-8">
+          {['Home', 'Events', 'About'].map((item) => (
+            <motion.a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              whileHover={{ scale: 1.1, color: '#06b6d4' }}
+              whileTap={{ scale: 0.95 }}
+              className="text-white hover:text-cyan-500 transition-colors relative group"
+            >
+              {item}
+              <motion.span
+                className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-500 group-hover:w-full transition-all duration-300"
+                initial={{ width: '0%' }}
+                whileHover={{ width: '100%' }}
+              />
+            </motion.a>
+          ))}
+        </div>
+      </div>
+    </motion.nav>
+  );
+}
+
+function Hero() {
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 500], [0, 200]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const scale = useTransform(scrollY, [0, 300], [1, 0.8]);
+
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      const moveX = (clientX - window.innerWidth / 2) * 0.01;
+      const moveY = (clientY - window.innerHeight / 2) * 0.01;
+      setMousePosition({ x: moveX, y: moveY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return (
+    <motion.div
+      id="home"
+      className="h-screen relative overflow-hidden flex items-center justify-center"
+      style={{
+        background: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      <motion.div
+        style={{
+          y,
+          opacity,
+          scale,
+          x: mousePosition.x,
+          rotateX: mousePosition.y,
+          rotateY: -mousePosition.x,
+        }}
+        className="text-center z-10 perspective-1000"
+      >
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-7xl font-bold text-white mb-4"
+        >
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="inline-block"
+          >
+            Tech
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="inline-block text-cyan-500"
+          >
+            Fest
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="inline-block ml-4"
+          >
+            2024
+          </motion.span>
+        </motion.h1>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="relative"
+        >
+          <motion.p
+            className="text-xl text-cyan-400 mb-8"
+            animate={{
+              textShadow: [
+                "0 0 8px rgb(6 182 212 / 0.5)",
+                "0 0 16px rgb(6 182 212 / 0.5)",
+                "0 0 8px rgb(6 182 212 / 0.5)"
+              ]
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            Innovate • Create • Transform
+          </motion.p>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-block"
+          >
+            <a
+              href="#events"
+              className="bg-cyan-500 text-black px-8 py-3 rounded-full font-semibold hover:bg-cyan-400 transition-colors relative overflow-hidden group"
+            >
+              <span className="relative z-10">Explore Events</span>
+              <motion.div
+                className="absolute inset-0 bg-cyan-300"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.5 }}
+              />
+            </a>
+          </motion.div>
+        </motion.div>
+      </motion.div>
+
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 bg-cyan-500 rounded-full"
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+              opacity: Math.random() * 0.5 + 0.3
+            }}
+            animate={{
+              y: [null, Math.random() * window.innerHeight],
+              opacity: [null, Math.random() * 0.5 + 0.3]
+            }}
+            transition={{
+              duration: Math.random() * 10 + 10,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            style={{
+              filter: "blur(1px)"
+            }}
+          />
+        ))}
+      </div>
     </motion.div>
   );
 }
@@ -203,17 +391,17 @@ function EventCard({ event, index, onEventClick }) {
       className="bg-gray-900 rounded-xl overflow-hidden group cursor-pointer"
     >
       <div className="h-48 overflow-hidden relative">
-        <motion.img 
-          src={event.image} 
-          alt={event.title} 
+        <motion.img
+          src={event.image}
+          alt={event.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
-        <motion.div 
+        <motion.div
           className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-6 text-center"
           initial={{ opacity: 0 }}
           whileHover={{ opacity: 1 }}
         >
-          <motion.h3 
+          <motion.h3
             className="text-xl font-bold text-white mb-2"
             initial={{ y: 20, opacity: 0 }}
             whileHover={{ y: 0, opacity: 1 }}
@@ -221,7 +409,7 @@ function EventCard({ event, index, onEventClick }) {
           >
             {event.title}
           </motion.h3>
-          <motion.p 
+          <motion.p
             className="text-gray-300 text-sm"
             initial={{ y: 20, opacity: 0 }}
             whileHover={{ y: 0, opacity: 1 }}
@@ -242,7 +430,7 @@ function Events() {
       title: "Hackathon",
       icon: Code,
       description: "24-hour coding challenge to solve real-world problems",
-      image: "https://github.com/varada-sandeep/Tantraz2025/blob/main/quickfingers.webp",
+      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1740",
       formLink: "#"
     },
     {
@@ -337,10 +525,10 @@ function Events() {
         </motion.h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {events.map((event, index) => (
-            <EventCard 
-              key={index} 
-              event={event} 
-              index={index} 
+            <EventCard
+              key={index}
+              event={event}
+              index={index}
               onEventClick={setSelectedEvent}
             />
           ))}
@@ -348,9 +536,9 @@ function Events() {
       </div>
       <AnimatePresence>
         {selectedEvent && (
-          <EventDetails 
-            event={selectedEvent} 
-            onClose={() => setSelectedEvent(null)} 
+          <EventDetails
+            event={selectedEvent}
+            onClose={() => setSelectedEvent(null)}
           />
         )}
       </AnimatePresence>
@@ -405,7 +593,7 @@ function About() {
           />
 
           <div className="relative z-10">
-            <motion.h2 
+            <motion.h2
               variants={itemVariants}
               className="text-4xl font-bold text-white mb-8"
             >
