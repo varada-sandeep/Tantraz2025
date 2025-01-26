@@ -242,7 +242,7 @@ function Events() {
       title: "Hackathon",
       icon: Code,
       description: "24-hour coding challenge to solve real-world problems",
-      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1740",
+      image: "https://github.com/varada-sandeep/Tantraz2025/blob/main/quickfingers.webp",
       formLink: "#"
     },
     {
